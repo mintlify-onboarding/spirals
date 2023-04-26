@@ -1,0 +1,142 @@
+---
+title: "Building dApps"
+description: "📱How to integrate Spirals into your web apps, mobile apps, etc."
+---
+
+The following examples use an open-source library of React hooks built for Ethereum called [Wagmi](https://wagmi.sh/). Please create a new file `GreenTokenVaultInterface.json` in your project to import the ABI and get started on these code examples 👇
+
+GreenTokenVaultInterface.json
+
+94KB
+
+Code
+
+### Depositing into vault
+
+Let's start with a simple example where we render a component that attempts to deposit 1 token (assuming 18 decimals) to the vault when clicked on.
+
+Note that in order for this to succeed on you must approve the spending amount first on the ERC-20 token for the vault address as the spender. Use `depositETH` instead if you are integrating with a native token like ETH or Celo
+
+```
+import { ethers } from "ethers";
+import {useAccount, useSigner, useContractWrite, usePrepareContractWrite} from "wagmi";
+import ImpactVaultInterface from "~/abis/ImpactVaultInterface.json";
+
+export const MyComponent = () => {
+  const { address } = useAccount();
+  const { signer } = useSigner();
+
+  const { config: depositConfig } = usePrepareContractWrite({
+    addressOrName: "",
+    contractInterface: ImpactVaultInterface.abi,
+    functionName: "deposit",
+    signerOrProvider: signer,
+    args: [ethers.utils.parseEther("1"), address],
+  });
+
+  const { write: deposit } = useContractWrite({
+    ...depositConfig,
+    onSuccess: async (data: any) => {
+      console.log("wallet prompt success");
+      const res = await data.wait();
+      if (res.status === 1) {
+        console.log("txn success");
+      } else {
+        console.log("txn error");
+      }
+    },
+    onError: error => {
+      console.log("wallet prompt error");
+    },
+  });
+  
+  return (
+    
+Deposit 1 token
+
+  );
+}
+```
+
+### Reading gToken balance
+
+Great! Now we can also read the gToken balance like any other ERC-20 token contract. Doing this is simple with Wagmi using the `useBalance` hook.
+
+```
+import { ethers } from "ethers";
+import {useAccount, useBalance} from "wagmi";
+
+export const MyComponent = () => {
+  const { address } = useAccount();
+
+  const { data: gTokenBalance, refetch: refetchBalance } = useBalance({
+    addressOrName: address,
+    token: ""
+  });
+  
+  return (
+    
+gToken balance {gTokenBalance.formatted}
+
+  );
+}
+```
+
+Let's merge this with the first snippet so that after we deposit we refetch the user's gToken balance and see it change!
+
+### Putting it together
+
+```
+import { ethers } from "ethers";
+import {useAccount, useSigner, useBalance, useContractWrite, usePrepareContractWrite} from "wagmi";
+import ImpactVaultInterface from "~/abis/ImpactVaultInterface.json";
+
+export const MyComponent = () => {
+  const { address } = useAccount();
+  const { signer } = useSigner();
+
+  const { data: gTokenBalance, refetch: refetchBalance } = useBalance({
+    addressOrName: address,
+    token: ""
+  });
+  
+  console.log(`pre-deposit gToken balance: ${gTokenBalance?.formatted}`);
+
+  const { config: depositConfig } = usePrepareContractWrite({
+    addressOrName: "",
+    contractInterface: ImpactVaultInterface.abi,
+    functionName: "deposit",
+    signerOrProvider: signer,
+    args: [ethers.utils.parseEther("1"), address],
+  });
+
+  const { write: deposit } = useContractWrite({
+    ...depositConfig,
+    onSuccess: async (data: any) => {
+      console.log("wallet prompt success");
+      const res = await data.wait();
+      if (res.status === 1) {
+        console.log("txn success");
+        await refetchBalance();
+        console.log(`post-deposit gToken balance: ${gTokenBalance?.formatted}`);
+      } else {
+        console.log("txn error");
+      }
+    },
+    onError: error => {
+      console.log("wallet prompt error");
+    },
+  });
+  
+  return (
+    
+Deposit 1 token
+
+    gToken balance {gTokenBalance.formatted}
+
+  );
+}
+```
+
+Woo! Now we have a full end-to-end example of a front-end dapp that deposits an ERC-20 token into the gToken vault and refetches the user's gToken balance 😤
+
