@@ -8,8 +8,8 @@
   "colors": {
     "primary": "#008E1F",
     "light": "#E7F3E4",
-    "dark": "#1E3133",
-    "anchors": { "from": "#", "to": "#" }
+    "dark": "#015614",
+    "anchors": { "from": "#1DBE40", "to": "#016717" }
   },
   "topbarCtaButton": {
     "name": "Launch App",
