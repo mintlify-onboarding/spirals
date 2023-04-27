@@ -31,6 +31,11 @@
       "name": "Contact",
       "icon": "envelope",
       "url": "https://www.spirals.so/contact"
+    },
+    {
+      "name": "GitHub",
+      "icon": "github",
+      "url": "https://github.com/spiralsprotocol"
     }
   ],
   "navigation": [
@@ -79,6 +84,7 @@
   ],
   "footerSocials": {
     "twitter": "https://twitter.com/spiralsprotocol",
-    "linkedin": "https://www.linkedin.com/company/spiralsprotocol/"
+    "linkedin": "https://www.linkedin.com/company/spiralsprotocol",
+    "github": "https://github.com/spiralsprotocol"
   }
 }
