@@ -1,23 +1,30 @@
 ---
-title: "Building dApps"
-description: "📱How to integrate Spirals into your web apps, mobile apps, etc."
+title: "📱 Building dApps"
+description: "How to integrate Spirals into your web apps, mobile apps, etc."
 ---
 
-The following examples use an open-source library of React hooks built for Ethereum called [Wagmi](https://wagmi.sh/). Please create a new file `GreenTokenVaultInterface.json` in your project to import the ABI and get started on these code examples 👇
+The following examples use an open-source library of React hooks built for
+Ethereum called [Wagmi](https://wagmi.sh/). Please create a new file
+`GreenTokenVaultInterface.json` in your project to import the ABI and get
+started on these code examples 👇
 
-GreenTokenVaultInterface.json
-
-94KB
-
-Code
+<Card
+  title="GreenTokenVaultInterface.json"
+  href="https://4048952212-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FcdVKwHnizVKkiIVLyFHX%2Fuploads%2FhEQAv2q8Wky4CRi2uHVW%2FGreenTokenVaultInterface.json?alt=media&token=0a128cb5-78e1-4a17-9266-7f044f76e103"
+>
+  **94KB** Code
+</Card>
 
 ### Depositing into vault
 
-Let's start with a simple example where we render a component that attempts to deposit 1 token (assuming 18 decimals) to the vault when clicked on.
+Let's start with a simple example where we render a component that attempts to
+deposit 1 token (assuming 18 decimals) to the vault when clicked on.
 
-Note that in order for this to succeed on you must approve the spending amount first on the ERC-20 token for the vault address as the spender. Use `depositETH` instead if you are integrating with a native token like ETH or Celo
+Note that in order for this to succeed on you must approve the spending amount
+first on the ERC-20 token for the vault address as the spender. Use `depositETH`
+instead if you are integrating with a native token like ETH or Celo
 
-```
+```ts
 import { ethers } from "ethers";
 import {useAccount, useSigner, useContractWrite, usePrepareContractWrite} from "wagmi";
 import ImpactVaultInterface from "~/abis/ImpactVaultInterface.json";
@@ -49,9 +56,9 @@ export const MyComponent = () => {
       console.log("wallet prompt error");
     },
   });
-  
+
   return (
-    
+
 Deposit 1 token
 
   );
@@ -60,9 +67,10 @@ Deposit 1 token
 
 ### Reading gToken balance
 
-Great! Now we can also read the gToken balance like any other ERC-20 token contract. Doing this is simple with Wagmi using the `useBalance` hook.
+Great! Now we can also read the gToken balance like any other ERC-20 token
+contract. Doing this is simple with Wagmi using the `useBalance` hook.
 
-```
+```ts
 import { ethers } from "ethers";
 import {useAccount, useBalance} from "wagmi";
 
@@ -73,20 +81,21 @@ export const MyComponent = () => {
     addressOrName: address,
     token: ""
   });
-  
+
   return (
-    
+
 gToken balance {gTokenBalance.formatted}
 
   );
 }
 ```
 
-Let's merge this with the first snippet so that after we deposit we refetch the user's gToken balance and see it change!
+Let's merge this with the first snippet so that after we deposit we refetch the
+user's gToken balance and see it change!
 
 ### Putting it together
 
-```
+```ts
 import { ethers } from "ethers";
 import {useAccount, useSigner, useBalance, useContractWrite, usePrepareContractWrite} from "wagmi";
 import ImpactVaultInterface from "~/abis/ImpactVaultInterface.json";
@@ -99,7 +108,7 @@ export const MyComponent = () => {
     addressOrName: address,
     token: ""
   });
-  
+
   console.log(`pre-deposit gToken balance: ${gTokenBalance?.formatted}`);
 
   const { config: depositConfig } = usePrepareContractWrite({
@@ -127,9 +136,9 @@ export const MyComponent = () => {
       console.log("wallet prompt error");
     },
   });
-  
+
   return (
-    
+
 Deposit 1 token
 
     gToken balance {gTokenBalance.formatted}
@@ -138,5 +147,5 @@ Deposit 1 token
 }
 ```
 
-Woo! Now we have a full end-to-end example of a front-end dapp that deposits an ERC-20 token into the gToken vault and refetches the user's gToken balance 😤
-
+Woo! Now we have a full end-to-end example of a front-end dapp that deposits an
+ERC-20 token into the gToken vault and refetches the user's gToken balance 😤

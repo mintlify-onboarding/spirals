@@ -1,31 +1,50 @@
 ---
-title: "Running a Validator"
-description: "🖥How to run a regenerative validator by setting up a payment delegation on Celo"
+title: "🖥 Running a Validator"
+description:
+  "How to run a regenerative validator by setting up a payment delegation on
+  Celo"
 ---
 
 ## Motivation
 
-At the highest level our mission at Spirals is building regenerative web3 infrastructure. When we first started this journey, we spent a lot of time working with validators – the core players powering proof-of-stake infrastructure – to understand how they can become climate-positive and use this to attract more stakers!
+At the highest level our mission at Spirals is building regenerative web3
+infrastructure. When we first started this journey, we spent a lot of time
+working with validators – the core players powering proof-of-stake
+infrastructure – to understand how they can become climate-positive and use this
+to attract more stakers!
 
-If you are here right now, it's probably because you are interested in running a regenerative validator. We can't wait to support you on this journey and exploring together how core blockchain infrastructure can heal the world 🌎 
+If you are here right now, it's probably because you are interested in running a
+regenerative validator. We can't wait to support you on this journey and
+exploring together how core blockchain infrastructure can heal the world 🌎
 
-The following page assumes that you are running a validator on Celo. Support for this on other chains coming soon.
+<Note>
+  The following page assumes that you are running a validator on Celo. Support
+  for this on other chains coming soon.
+</Note>
 
 ## How does this work?
 
-Today on Celo validators can set up a **payment delegation** to a beneficiary address. This means that every epoch a fraction of the validator rewards in cUSD is sent to the beneficiary, and this information is stored on Celo's core smart contracts.
+Today on Celo validators can set up a **payment delegation** to a beneficiary
+address. This means that every epoch a fraction of the validator rewards in cUSD
+is sent to the beneficiary, and this information is stored on Celo's core smart
+contracts.
 
-By setting up a payment delegation with the Spirals multi-sig on Celo as your beneficiary, you can start to make a continuous, positive impact on climate today!
+By setting up a payment delegation with the Spirals multi-sig on Celo as your
+beneficiary, you can start to make a continuous, positive impact on climate
+today!
 
 ## Can I do this today?
 
-Yes! The section below shows you how you can do this today in 2 easy steps with the Spirals multisig as the beneficiary. Feel free to give this a try, and you can remove the payment delegation at anytime as well. Let's dive in 👇
+Yes! The section below shows you how you can do this today in 2 easy steps with
+the Spirals multisig as the beneficiary. Feel free to give this a try, and you
+can remove the payment delegation at anytime as well. Let's dive in 👇
 
 ### 1\. Install `celocli`
 
-`celocli` only supports node v12.x today so make sure you have that. `nvm` is a pretty nifty package for managing multiple versions of node! 
+`celocli` only supports node v12.x today so make sure you have that. `nvm` is a
+pretty nifty package for managing multiple versions of node!
 
-```
+```bash
 $ nvm use 12
 
 $ npm install -g @celo/celocli
@@ -40,7 +59,9 @@ $ export FRACTION=0.1 # 10%
 
 ### 2\. Setting the payment delegation
 
-In this example I'm storing things in a private `.env` file locally, but there are other ways to do this as well that are outlined in the Celo docs [here](https://docs.celo.org/cli#import-accounts).
+In this example I'm storing things in a private `.env` file locally, but there
+are other ways to do this as well that are outlined in the Celo docs
+[here](https://docs.celo.org/cli#import-accounts).
 
 ```
 $ celocli account:set-payment-delegation --account 0xE1C46D6e7D44a446E2981A7C96F0cf9A9b097AF5 --beneficiary $BENEFICIARY --fraction $FRACTION --privateKey $PRIVATE_KEY
@@ -51,17 +72,20 @@ Payment delegation beneficiary and fraction are:
 
 ### 3\. Sharing your impact 🤲
 
-And that's it! Thank you setting up this payment delegation and committing to running regenerative blockchain infrastructure. In the short-term, we hope to ship some exciting features in the ecosystem to highlight the impact validators we work with are making :
+And that's it! Thank you setting up this payment delegation and committing to
+running regenerative blockchain infrastructure. In the short-term, we hope to
+ship some exciting features in the ecosystem to highlight the impact validators
+we work with are making :
 
-🔦 Impact metrics on **validator explorers** so you can attract new stakers through impact
+- 🔦 Impact metrics on **validator explorers** so you can attract new stakers
+  through impact
+- 📈 Monthly impact **reports** that you can share your impact with your
+  community
+- 💻 Spirals **dashboards** for understanding your impact and where the money is
+  going
 
-📈 Monthly impact **reports** that you can share your impact with your community
+If at any point in time you would like to remove the payment delegation, you can
+simply do that by calling `account:delete-payment-delegation`
 
-💻 Spirals **dashboards** for understanding your impact and where the money is going 
-
-
-If at any point in time you would like to remove the payment delegation, you can simply do that by calling `account:delete-payment-delegation`
-
-
-Special shoutout to Aaron from VladiatorLabs for piloting this process with us and providing valuable feedback 🙏 
-
+Special shoutout to Aaron from VladiatorLabs for piloting this process with us
+and providing valuable feedback 🙏

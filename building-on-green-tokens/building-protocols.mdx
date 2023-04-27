@@ -1,28 +1,34 @@
 ---
-title: "Building Protocols"
-description: "💻How to integrate Spirals gToken vaults into your protocol's smart contracts"
+title: "💻 Building Protocols"
+description:
+  "How to integrate Spirals gToken vaults into your protocol's smart contracts"
 ---
 
-The following code snippets show an example of how you can integrate the Spirals vault contracts into your smart contracts. Please create a new file `GreenTokenVaultInterface.sol` in your project to import the interface in your contract files and get started on these code examples 👇
+The following code snippets show an example of how you can integrate the Spirals
+vault contracts into your smart contracts. Please create a new file
+`GreenTokenVaultInterface.sol` in your project to import the interface in your
+contract files and get started on these code examples 👇
 
-GreenTokenVaultInterface.sol
-
-2KB
-
-Binary
+<Card
+  title="GreenTokenVaultInterface.sol"
+  href="https://4048952212-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FcdVKwHnizVKkiIVLyFHX%2Fuploads%2FhEQAv2q8Wky4CRi2uHVW%2FGreenTokenVaultInterface.json?alt=media&token=0a128cb5-78e1-4a17-9266-7f044f76e103"
+>
+  **2KB** Binary
+</Card>
 
 ### Depositing into vault
 
-Once again, we start with a simple example where the contract being integrated deposit `_amount` of token into the vault.
+Once again, we start with a simple example where the contract being integrated
+deposit `_amount` of token into the vault.
 
-```
+```js
 contract MyContract {
     ImpactVaultInterface gTokenVault;
-    
+
     constructor(address _gTokenVaultAddress) {
         gTokenVault = ImpactVaultInterface(_gTokenVaultAddress);
     }
-    
+
     /**
      * @dev Deposits tokens into gToken vault on behalf of receiver.
      *  Assumes that the contract has enough tokens already.
@@ -39,16 +45,17 @@ For native tokens like ETH and Celo, use `depositETH(address _receiver) payable`
 
 ### Reading gToken balances
 
-Similarly, we can also pretty easily read the gToken balances using the method that's available on the interface.
+Similarly, we can also pretty easily read the gToken balances using the method
+that's available on the interface.
 
-```
+```js
 contract MyContract {
     ImpactVaultInterface gTokenVault;
-    
+
     constructor(address _gTokenVaultAddress) {
         gTokenVault = ImpactVaultInterface(_gTokenVaultAddress);
     }
-    
+
     /**
      * @dev Returns the gToken balance of the user.
      */
@@ -58,32 +65,33 @@ contract MyContract {
 }
 ```
 
-Now let's put the 2 snippets together so that on deposit we return the amount of gTokens the receiver gets through a deposit function call.
+Now let's put the 2 snippets together so that on deposit we return the amount of
+gTokens the receiver gets through a deposit function call.
 
 ### Putting it together
 
-```
+```js
 contract MyContract {
     ImpactVaultInterface gTokenVault;
-    
+
     constructor(address _gTokenVaultAddress) {
         gTokenVault = ImpactVaultInterface(_gTokenVaultAddress);
     }
-    
+
     /**
      * @dev Deposits tokens into gToken vault on behalf of receiver.
      *  Assumes that the contract has enough tokens already to support this.
-     *  Returns the number of gTokens recieved by the user. 
+     *  Returns the number of gTokens recieved by the user.
      */
     function gTokenDeposit(uint256 _amount, address _receiver) returns (uint256) {
         require(gTokenVault.asset().balanceOf(address(this)) >= _amount, "AMOUNT_EXCEEDS_TOKEN_BALANCE");
         gTokenVault.asset().approve(address(gTokenVault), _amount);
-        
+
         uint256 gTokenPreDepositBalance = getGTokenBalance(_receiver);
         gTokenVault.deposit(_amount, address(this));
         return getGTokenBalance(_receiver) - gTokenPreDepositBalance;
     }
-    
+
     /**
      * @dev Returns the gToken balance of the user.
      */
@@ -93,5 +101,6 @@ contract MyContract {
 }
 ```
 
-Sweet! Now we have a full end-to-end example of a smart contract that deposits an ERC-20 token into the gToken vault on behalf of a receiver and returns the amount of gTokens received 😤
-
+Sweet! Now we have a full end-to-end example of a smart contract that deposits
+an ERC-20 token into the gToken vault on behalf of a receiver and returns the
+amount of gTokens received 😤
