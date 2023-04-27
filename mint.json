@@ -43,7 +43,14 @@
       "pages": [
         "climate-impact/maximizing-climate-impact",
         "climate-impact/project-review-process",
-        "climate-impact/climate-council"
+        {
+          "group": "🏛 Climate Council",
+          "pages": [
+            "climate-impact/climate-council",
+            "climate-impact/climate-council/current-members",
+            "climate-impact/climate-council/adding-removing-members"
+          ]
+        }
       ]
     },
     {
