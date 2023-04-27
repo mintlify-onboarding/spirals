@@ -23,6 +23,11 @@
   ],
   "anchors": [
     {
+      "name": "Demo",
+      "icon": "circle-play",
+      "url": "https://demo.spirals.so"
+    },
+    {
       "name": "Blog",
       "icon": "newspaper",
       "url": "https://medium.com/spirals-protocol"
@@ -31,11 +36,6 @@
       "name": "Contact",
       "icon": "envelope",
       "url": "https://www.spirals.so/contact"
-    },
-    {
-      "name": "GitHub",
-      "icon": "github",
-      "url": "https://github.com/spiralsprotocol"
     }
   ],
   "navigation": [
